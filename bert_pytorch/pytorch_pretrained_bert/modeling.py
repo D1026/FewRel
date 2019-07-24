@@ -304,6 +304,9 @@ class BertSelfAttention(nn.Module):
         attention_scores = attention_scores / math.sqrt(self.attention_head_size)
         # Apply the attention mask is (precomputed for all layers in BertModel forward() function)
         attention_scores = attention_scores + attention_mask
+        """
+        所谓的 padding mask, 在 softmax 运算之前，通过在padding位加上 -∞ 使对该处注意力趋于 0
+        """
 
         # Normalize the attention scores to probabilities.
         attention_probs = nn.Softmax(dim=-1)(attention_scores)
